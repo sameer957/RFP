@@ -64,6 +64,7 @@ export const getAllVendors = async (req, res) => {
 
     return res.status(200).json({
       success: true,
+      message: "Vendor fetched successfully",
       vendors,
     });
   } catch (error) {

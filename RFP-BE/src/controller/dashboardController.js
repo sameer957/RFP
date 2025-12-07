@@ -20,7 +20,7 @@ export async function getRecentActivities(req, res) {
     console.error("Error fetching activities", err);
     res
       .status(500)
-      .json({ success: false, message: "Failed to fetch activities" });
+      .json({ success: false, message: "Internal Server Error" });
   }
 }
 

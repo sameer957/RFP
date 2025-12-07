@@ -6,8 +6,6 @@
   "scripts": {
     "dev": "cd src && nodemon server.js",
     "start": "cd src && node server.js",
-    "dev:watch": "webpack --watch",
-    "build": "webpack --config webpack.config.js",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,md}\""
   },
   "keywords": [],
