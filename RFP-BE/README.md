@@ -30,10 +30,12 @@ Project Setup:
             - npm run dev
         - Start Frontend:
             - npm i
-            -npm run dev
+            - npx prisma migrate dev 
+            - npx prisma generate
+            - npm run dev
 
     -- NOW TEST EVERYTHING
-    
+
 
 Tech Stack & Key libraries:
     Node.js
