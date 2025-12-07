@@ -1,0 +1,72 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Vendor {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  category  String
+  createdAt DateTime @default(now())
+}
+
+model RFPRequest {
+  id        Int      @id @default(autoincrement())
+  prompt    String
+  createdAt DateTime @default(now())
+  rfpResponses RfpResponse[]
+  emailsSent   EmailSent[]
+  emailReplies EmailReply[]
+}
+
+model RfpResponse {
+  id       Int        @id @default(autoincrement())
+  promptId Int
+  prompt   RFPRequest @relation(fields: [promptId], references: [id])
+  rfpJson Json
+  createdAt DateTime @default(now())
+}
+
+model Templates {
+  id         Int      @id @default(autoincrement())
+  templateId Int
+  createdAt  DateTime @default(now())
+}
+
+model EmailSent {
+  id          Int     @id @default(autoincrement())
+  promptId    Int
+  vendorEmail String
+  messageId   String? @unique
+  prompt  RFPRequest @relation(fields: [promptId], references: [id])
+  replied Boolean    @default(false)
+  sentAt DateTime @default(now())
+  @@unique([promptId, vendorEmail])
+}
+
+model EmailReply {
+  id          Int      @id @default(autoincrement())
+  promptId    Int
+  vendorEmail String
+  messageId   String?
+  bodyText    String?
+  score       Float?
+  createdAt   DateTime @default(now())
+  processed Boolean @default(false)
+  selected  Boolean @default(false)
+  summary String?
+  prompt RFPRequest @relation(fields: [promptId], references: [id])
+  @@index([promptId])
+}
+
+model Activity {
+  id        String   @id @default(uuid())
+  title     String
+  createdAt DateTime @default(now())
+}
